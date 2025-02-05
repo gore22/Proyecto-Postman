@@ -1,0 +1,2006 @@
+{
+	"info": {
+		"_postman_id": "88bcf6b6-d4ec-405e-b3ee-e51047d1080a",
+		"name": "DummyJSON API Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34191224",
+		"_collection_link": "https://www.postman.com/iniciando/workspace/api-tests-dummyjson/collection/34191224-88bcf6b6-d4ec-405e-b3ee-e51047d1080a?action=share&source=collection_link&creator=34191224"
+	},
+	"item": [
+		{
+			"name": "Autorización",
+			"item": [
+				{
+					"name": "Obtener lista de usuarios",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									" pm.test(\"Status code es 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"La respuesta contiene usuarios\", function () {\r",
+									"  let jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData.users.length).to.be.above(0);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								""
+							]
+						},
+						"description": "Obtener una lista de usuarios y datos"
+					},
+					"response": []
+				},
+				{
+					"name": "Login y obtener token",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"pm.collectionVariables.set(\"authToken\", response.accessToken);\r",
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type header is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"pm.test(\"Validate the response body has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.accessToken).to.exist;",
+									"    pm.expect(responseData.refreshToken).to.exist;",
+									"    pm.expect(responseData.id).to.exist;",
+									"    pm.expect(responseData.username).to.exist;",
+									"    pm.expect(responseData.email).to.exist;",
+									"    pm.expect(responseData.firstName).to.exist;",
+									"    pm.expect(responseData.lastName).to.exist;",
+									"    pm.expect(responseData.gender).to.exist;",
+									"    pm.expect(responseData.image).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Email is in a valid format\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.email).to.match(/^\\S+@\\S+\\.\\S+$/, \"Email is not in a valid format\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"AccessToken and RefreshToken are non-empty strings\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.accessToken).to.be.a('string').and.to.have.lengthOf.at.least(1, \"AccessToken should not be empty\");",
+									"    pm.expect(responseData.refreshToken).to.be.a('string').and.to.have.lengthOf.at.least(1, \"RefreshToken should not be empty\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"emilys\",\r\n  \"password\": \"emilyspass\",\r\n  \"expiresInMins\": 30\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}auth/login",
+							"host": [
+								"{{baseUrl}}auth"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "Realiza el inicio de sesión con credenciales de usuario y almacena el token de autenticación en la variable `authToken` para su uso en solicitudes posteriores."
+					},
+					"response": []
+				},
+				{
+					"name": "Usuario auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type header is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the user object\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.id).to.exist.and.to.be.a('number');",
+									"    pm.expect(responseData.firstName).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.lastName).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.age).to.exist.and.to.be.a('number');",
+									"    pm.expect(responseData.gender).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.email).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.phone).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.username).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.password).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.birthDate).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.image).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.height).to.exist.and.to.be.a('number');",
+									"    pm.expect(responseData.weight).to.exist.and.to.be.a('number');",
+									"    pm.expect(responseData.eyeColor).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.hair).to.exist.and.to.be.an('object');",
+									"    pm.expect(responseData.hair.color).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.hair.type).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.ip).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.address).to.exist.and.to.be.an('object');",
+									"    pm.expect(responseData.address.address).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.address.city).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.address.state).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.address.stateCode).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.address.postalCode).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.address.coordinates).to.exist.and.to.be.an('object');",
+									"    pm.expect(responseData.address.coordinates.lat).to.exist.and.to.be.a('number');",
+									"    pm.expect(responseData.address.coordinates.lng).to.exist.and.to.be.a('number');",
+									"    pm.expect(responseData.address.country).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.macAddress).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.university).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.bank).to.exist.and.to.be.an('object');",
+									"    pm.expect(responseData.bank.cardExpire).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.bank.cardNumber).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.bank.cardType).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.bank.currency).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.bank.iban).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.company).to.exist.and.to.be.an('object');",
+									"    pm.expect(responseData.company.department).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.company.name).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.company.title).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.company.address).to.exist.and.to.be.an('object');",
+									"    pm.expect(responseData.company.address.address).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.company.address.city).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.company.address.state).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.company.address.stateCode).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.company.address.postalCode).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.company.address.coordinates).to.exist.and.to.be.an('object');",
+									"    pm.expect(responseData.company.address.coordinates.lat).to.exist.and.to.be.a('number');",
+									"    pm.expect(responseData.company.address.coordinates.lng).to.exist.and.to.be.a('number');",
+									"    pm.expect(responseData.company.address.country).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.ein).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.ssn).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.userAgent).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.crypto).to.exist.and.to.be.an('object');",
+									"    pm.expect(responseData.crypto.coin).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.crypto.wallet).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.crypto.network).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.role).to.exist.and.to.be.a('string');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Email is in a valid format\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.email).to.be.a('string').and.to.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Hair object contains valid color and type properties\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.hair).to.exist;",
+									"    pm.expect(responseData.hair.color).to.be.a('string');",
+									"    pm.expect(responseData.hair.type).to.be.a('string');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}auth/me",
+							"host": [
+								"{{baseUrl}}auth"
+							],
+							"path": [
+								"me"
+							]
+						},
+						"description": "Obtener usuario de autentificación actual, proporcionando access token en el bearer"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Imagen",
+			"item": [
+				{
+					"name": "Obtener imagen",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}image/150",
+							"host": [
+								"{{baseUrl}}image"
+							],
+							"path": [
+								"150"
+							]
+						},
+						"description": "Obtenemos una imagen específica."
+					},
+					"response": []
+				},
+				{
+					"name": "Personalizar imagen",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}image/400x300/008080/ffffff?text=Hello+Victor",
+							"host": [
+								"{{baseUrl}}image"
+							],
+							"path": [
+								"400x300",
+								"008080",
+								"ffffff"
+							],
+							"query": [
+								{
+									"key": "text",
+									"value": "Hello+Victor"
+								}
+							]
+						},
+						"description": "Personalizamos imagen con un tamaño de 400x300 color definido y un texto personalizado."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Obtener usuarios",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the users array in the response\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.users).to.exist.and.to.be.an('array');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Email is in a valid format\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.users).to.be.an('array');",
+									"    responseData.users.forEach(function(user) {",
+									"        pm.expect(user.email).to.be.a('string').and.to.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/);",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Total is a non-negative integer\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.total).to.be.a('number');",
+									"    pm.expect(responseData.total).to.be.at.least(0);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate user properties\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.users).to.be.an('array').that.is.not.empty;",
+									"    ",
+									"    responseData.users.forEach(function(user) {",
+									"        pm.expect(user).to.have.property('firstName').that.is.a('string');",
+									"        pm.expect(user).to.have.property('lastName').that.is.a('string');",
+									"        pm.expect(user).to.have.property('age').that.is.a('number');",
+									"        pm.expect(user).to.have.property('gender').that.is.a('string');",
+									"        pm.expect(user).to.have.property('email').that.is.a('string');",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}users/",
+							"host": [
+								"{{baseUrl}}users"
+							],
+							"path": [
+								""
+							]
+						},
+						"description": "Obtener lista de usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Usuarios por nombres",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type header is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the users array\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.users).to.be.an('array').and.to.have.lengthOf.at.least(1, \"Users array should not be empty\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"pm.test(\"Verify the structure and data types of the user object\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.users).to.be.an('array');",
+									"    responseData.users.forEach(function(user) {",
+									"        pm.expect(user).to.have.property('id').that.is.a('number');",
+									"        pm.expect(user).to.have.property('firstName').that.is.a('string');",
+									"        pm.expect(user).to.have.property('lastName').that.is.a('string');",
+									"        pm.expect(user).to.have.property('maidenName').that.is.a('string');",
+									"        pm.expect(user).to.have.property('age').that.is.a('number');",
+									"        pm.expect(user).to.have.property('gender').that.is.a('string');",
+									"        pm.expect(user).to.have.property('email').that.is.a('string');",
+									"        pm.expect(user).to.have.property('phone').that.is.a('string');",
+									"        pm.expect(user).to.have.property('username').that.is.a('string');",
+									"        pm.expect(user).to.have.property('password').that.is.a('string');",
+									"        pm.expect(user).to.have.property('birthDate').that.is.a('string');",
+									"        pm.expect(user).to.have.property('image').that.is.a('string');",
+									"        pm.expect(user).to.have.property('bloodGroup').that.is.a('string');",
+									"        pm.expect(user).to.have.property('height').that.is.a('number');",
+									"        pm.expect(user).to.have.property('weight').that.is.a('number');",
+									"        pm.expect(user).to.have.property('eyeColor').that.is.a('string');",
+									"        pm.expect(user.hair).to.be.an('object');",
+									"        pm.expect(user.hair.color).to.be.a('string');",
+									"        pm.expect(user.hair.type).to.be.a('string');",
+									"        pm.expect(user).to.have.property('ip').that.is.a('string');",
+									"        pm.expect(user.address).to.be.an('object');",
+									"        pm.expect(user.address.address).to.be.a('string');",
+									"        pm.expect(user.address.city).to.be.a('string');",
+									"        pm.expect(user.address.state).to.be.a('string');",
+									"        pm.expect(user.address.stateCode).to.be.a('string');",
+									"        pm.expect(user.address.postalCode).to.be.a('string');",
+									"        pm.expect(user.address.coordinates).to.be.an('object');",
+									"        pm.expect(user.address.coordinates.lat).to.be.a('number');",
+									"        pm.expect(user.address.coordinates.lng).to.be.a('number');",
+									"        pm.expect(user.address.country).to.be.a('string');",
+									"        pm.expect(user).to.have.property('macAddress').that.is.a('string');",
+									"        pm.expect(user.university).to.be.a('string');",
+									"        pm.expect(user.bank).to.be.an('object');",
+									"        pm.expect(user.bank.cardExpire).to.be.a('string');",
+									"        pm.expect(user.bank.cardNumber).to.be.a('string');",
+									"        pm.expect(user.bank.cardType).to.be.a('string');",
+									"        pm.expect(user.bank.currency).to.be.a('string');",
+									"        pm.expect(user.bank.iban).to.be.a('string');",
+									"        pm.expect(user.company).to.be.an('object');",
+									"        pm.expect(user.company.department).to.be.a('string');",
+									"        pm.expect(user.company.name).to.be.a('string');",
+									"        pm.expect(user.company.title).to.be.a('string');",
+									"        pm.expect(user.company.address).to.be.an('object');",
+									"        pm.expect(user.company.address.address).to.be.a('string');",
+									"        pm.expect(user.company.address.city).to.be.a('string');",
+									"        pm.expect(user.company.address.state).to.be.a('string');",
+									"        pm.expect(user.company.address.stateCode).to.be.a('string');",
+									"        pm.expect(user.company.address.postalCode).to.be.a('string');",
+									"        pm.expect(user.company.address.coordinates).to.be.an('object');",
+									"        pm.expect(user.company.address.coordinates.lat).to.be.a('number');",
+									"        pm.expect(user.company.address.coordinates.lng).to.be.a('number');",
+									"        pm.expect(user.company.address.country).to.be.a('string');",
+									"        pm.expect(user).to.have.property('ein').that.is.a('string');",
+									"        pm.expect(user).to.have.property('ssn').that.is.a('string');",
+									"        pm.expect(user).to.have.property('userAgent').that.is.a('string');",
+									"        pm.expect(user.crypto).to.be.an('object');",
+									"        pm.expect(user.crypto.coin).to.be.a('string');",
+									"        pm.expect(user.crypto.wallet).to.be.a('string');",
+									"        pm.expect(user.crypto.network).to.be.a('string');",
+									"        pm.expect(user).to.have.property('role').that.is.a('string');",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response includes expected total, skip, and limit properties\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.total).to.exist;",
+									"  pm.expect(responseData.skip).to.exist;",
+									"  pm.expect(responseData.limit).to.exist;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}users/search?q=Stella",
+							"host": [
+								"{{baseUrl}}users"
+							],
+							"path": [
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "Stella"
+								}
+							]
+						},
+						"description": "Obtener usuarios por nombre \"Stella\" mediante parametros de consulta."
+					},
+					"response": []
+				},
+				{
+					"name": "Carro de usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type header is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Carts array and nested objects have correct structure\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.carts).to.be.an('array');",
+									"    ",
+									"    responseData.carts.forEach(function(cart) {",
+									"        pm.expect(cart).to.be.an('object');",
+									"        pm.expect(cart.products).to.be.an('array');",
+									"        pm.expect(cart.total).to.be.a('number');",
+									"        pm.expect(cart.discountedTotal).to.be.a('number');",
+									"        pm.expect(cart.userId).to.be.a('number');",
+									"        pm.expect(cart.totalProducts).to.be.a('number');",
+									"        pm.expect(cart.totalQuantity).to.be.a('number');",
+									"        ",
+									"        cart.products.forEach(function(product) {",
+									"            pm.expect(product).to.be.an('object');",
+									"            pm.expect(product.id).to.be.a('number');",
+									"            pm.expect(product.title).to.be.a('string');",
+									"            pm.expect(product.price).to.be.a('number');",
+									"            pm.expect(product.quantity).to.be.a('number');",
+									"            pm.expect(product.total).to.be.a('number');",
+									"            pm.expect(product.discountPercentage).to.be.a('number');",
+									"            pm.expect(product.discountedTotal).to.be.a('number');",
+									"            pm.expect(product.thumbnail).to.be.a('string');",
+									"        });",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Total, skip, and limit are present in the response\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.have.property('total');",
+									"    pm.expect(responseData).to.have.property('skip');",
+									"    pm.expect(responseData).to.have.property('limit');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify that the 'products' array contains at least one element\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.carts[0].products).to.be.an('array').that.is.not.empty;",
+									"});",
+									"",
+									"pm.test(\"Verify the required fields in 'products' array\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    responseData.carts[0].products.forEach(function(product) {",
+									"        pm.expect(product).to.have.property('id').that.is.a('number');",
+									"        pm.expect(product).to.have.property('title').that.is.a('string');",
+									"        pm.expect(product).to.have.property('price').that.is.a('number');",
+									"        pm.expect(product).to.have.property('quantity').that.is.a('number');",
+									"        pm.expect(product).to.have.property('total').that.is.a('number');",
+									"        pm.expect(product).to.have.property('discountPercentage').that.is.a('number');",
+									"        pm.expect(product).to.have.property('discountedTotal').that.is.a('number');",
+									"        pm.expect(product).to.have.property('thumbnail').that.is.a('string');",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}users/6/carts",
+							"host": [
+								"{{baseUrl}}users"
+							],
+							"path": [
+								"6",
+								"carts"
+							]
+						},
+						"description": "Obtenemos el contenido del carro de un usuario en específico."
+					},
+					"response": []
+				},
+				{
+					"name": "Filtrar usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Filtrar solo nombre, edad y color de cabello\", function () {\r",
+									"    let jsonData = pm.response.json();\r",
+									"    let filteredUsers = jsonData.users.map(user => ({\r",
+									"        firstName: user.firstName,\r",
+									"        age: user.age,\r",
+									"        addressCity: user.address.city\r",
+									"    }));\r",
+									"    console.log(filteredUsers); // Ver en la consola de Postman\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}users/filter?key=address.city&value=Phoenix&limit=5&skip=10&select=firstName,age,address",
+							"host": [
+								"{{baseUrl}}users"
+							],
+							"path": [
+								"filter"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "address.city"
+								},
+								{
+									"key": "value",
+									"value": "Phoenix"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "skip",
+									"value": "10"
+								},
+								{
+									"key": "select",
+									"value": "firstName,age,address"
+								}
+							]
+						},
+						"description": "**Obtenemos los usuarios filtrados por:**\n\n- **Ciudad:** Phoenix.\n    \n- **Límite:** 5 usuarios, comenzando desde el usuario 11.\n    \n- **Campos mostrados en consola:** Apellido, edad y dirección.\n    \n\nResultado impreso en consola."
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Comprobar usuario se ha creado correctamente\", function () {\r",
+									"    let jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property(\"id\");\r",
+									"    pm.expect(jsonData.firstName).to.eql(\"Victor\");\r",
+									"    pm.expect(jsonData.lastName).to.eql(\"Manuel\");\r",
+									"    pm.expect(jsonData.age).to.eql(40);\r",
+									"    pm.expect(jsonData.email).to.eql(\"victor@x.dummyjson.com\"); \r",
+									"});\r",
+									"// Guarda el valor \"id\" valor de la respuesta a una variable llamada \"id\"\r",
+									"pm.environment.set(\"id\", pm.response.json().id);\r",
+									"console.log(\"Id guardado:\", pm.response.json().id);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let body = {\r",
+									"  \"firstName\": \"Victor\",\r",
+									"  \"lastName\": \"Manuel\",\r",
+									"  \"age\": 40,\r",
+									"\t\"email\": \"victor@x.dummyjson.com\"\r",
+									"}\r",
+									"\r",
+									"pm.collectionVariables.set(\"nuevoUsuario\", JSON.stringify(body));\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{nuevoUsuario}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}users/add",
+							"host": [
+								"{{baseUrl}}users"
+							],
+							"path": [
+								"add"
+							]
+						},
+						"description": "Generamos una variable temporal que contiene los datos del nuevo usuario que queremos simular.  \n\nEsta variable solo existe durante la ejecución de la solicitud y no se envía directamente al servidor.\n\n#### **Validaciones realizadas:**\n\n1. Se recibe un ID válido en la respuesta.\n    \n2. El nombre del usuario es \"Victor\" y el apellido es \"Manuel\".\n    \n3. La edad es correcta (40 años).\n    \n4. Guarda el ID del nuevo usuario en una variable de entorno llamada (id)."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener usuario por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"pm.test(\"The response should be a valid JSON object\", function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.id).to.exist;",
+									"    pm.expect(responseData.firstName).to.exist;",
+									"    pm.expect(responseData.lastName).to.exist;",
+									"    pm.expect(responseData.age).to.exist;",
+									"    pm.expect(responseData.gender).to.exist;",
+									"    pm.expect(responseData.email).to.exist;",
+									"    pm.expect(responseData.phone).to.exist;",
+									"    pm.expect(responseData.username).to.exist;",
+									"    pm.expect(responseData.password).to.exist;",
+									"    pm.expect(responseData.birthDate).to.exist;",
+									"    pm.expect(responseData.image).to.exist;",
+									"    pm.expect(responseData.bloodGroup).to.exist;",
+									"    pm.expect(responseData.height).to.exist;",
+									"    pm.expect(responseData.weight).to.exist;",
+									"    pm.expect(responseData.eyeColor).to.exist;",
+									"    pm.expect(responseData.hair.color).to.exist;",
+									"    pm.expect(responseData.hair.type).to.exist;",
+									"    pm.expect(responseData.ip).to.exist;",
+									"    pm.expect(responseData.address.address).to.exist;",
+									"    pm.expect(responseData.address.city).to.exist;",
+									"    pm.expect(responseData.address.state).to.exist;",
+									"    pm.expect(responseData.address.stateCode).to.exist;",
+									"    pm.expect(responseData.address.postalCode).to.exist;",
+									"    pm.expect(responseData.address.coordinates.lat).to.exist;",
+									"    pm.expect(responseData.address.coordinates.lng).to.exist;",
+									"    pm.expect(responseData.address.country).to.exist;",
+									"    pm.expect(responseData.macAddress).to.exist;",
+									"    pm.expect(responseData.university).to.exist;",
+									"    pm.expect(responseData.bank.cardExpire).to.exist;",
+									"    pm.expect(responseData.bank.cardNumber).to.exist;",
+									"    pm.expect(responseData.bank.cardType).to.exist;",
+									"    pm.expect(responseData.bank.currency).to.exist;",
+									"    pm.expect(responseData.bank.iban).to.exist;",
+									"    pm.expect(responseData.company.department).to.exist;",
+									"    pm.expect(responseData.company.name).to.exist;",
+									"    pm.expect(responseData.company.title).to.exist;",
+									"    pm.expect(responseData.company.address.address).to.exist;",
+									"    pm.expect(responseData.company.address.city).to.exist;",
+									"    pm.expect(responseData.company.address.state).to.exist;",
+									"    pm.expect(responseData.company.address.stateCode).to.exist;",
+									"    pm.expect(responseData.company.address.postalCode).to.exist;",
+									"    pm.expect(responseData.company.address.coordinates.lat).to.exist;",
+									"    pm.expect(responseData.company.address.coordinates.lng).to.exist;",
+									"    pm.expect(responseData.company.address.country).to.exist;",
+									"    pm.expect(responseData.ein).to.exist;",
+									"    pm.expect(responseData.ssn).to.exist;",
+									"    pm.expect(responseData.userAgent).to.exist;",
+									"    pm.expect(responseData.crypto.coin).to.exist;",
+									"    pm.expect(responseData.crypto.wallet).to.exist;",
+									"    pm.expect(responseData.crypto.network).to.exist;",
+									"    pm.expect(responseData.role).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the structure of the 'address' object\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.address).to.exist.and.to.be.an('object');",
+									"    pm.expect(responseData.address).to.have.property('address').that.is.a('string');",
+									"    pm.expect(responseData.address).to.have.property('city').that.is.a('string');",
+									"    pm.expect(responseData.address).to.have.property('state').that.is.a('string');",
+									"    pm.expect(responseData.address).to.have.property('stateCode').that.is.a('string');",
+									"    pm.expect(responseData.address).to.have.property('postalCode').that.is.a('string');",
+									"    pm.expect(responseData.address.coordinates).to.exist.and.to.be.an('object');",
+									"    pm.expect(responseData.address.coordinates).to.have.property('lat').that.is.a('number');",
+									"    pm.expect(responseData.address.coordinates).to.have.property('lng').that.is.a('number');",
+									"    pm.expect(responseData.address).to.have.property('country').that.is.a('string');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Company object contains expected fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.company).to.be.an('object');",
+									"    pm.expect(responseData.company).to.have.property('department');",
+									"    pm.expect(responseData.company).to.have.property('name');",
+									"    pm.expect(responseData.company).to.have.property('title');",
+									"    pm.expect(responseData.company.address).to.be.an('object');",
+									"    pm.expect(responseData.company.address).to.have.property('address');",
+									"    pm.expect(responseData.company.address).to.have.property('city');",
+									"    pm.expect(responseData.company.address).to.have.property('state');",
+									"    pm.expect(responseData.company.address).to.have.property('stateCode');",
+									"    pm.expect(responseData.company.address).to.have.property('postalCode');",
+									"    pm.expect(responseData.company.address.coordinates).to.be.an('object');",
+									"    pm.expect(responseData.company.address.coordinates).to.have.property('lat');",
+									"    pm.expect(responseData.company.address.coordinates).to.have.property('lng');",
+									"    pm.expect(responseData.company.address).to.have.property('country');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}users/1",
+							"host": [
+								"{{baseUrl}}users"
+							],
+							"path": [
+								"1"
+							]
+						},
+						"description": "Obtener un usuario el id del usuario creado anteriormente mediante **Path Variables**"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar usuario",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "/* updating lastName of user with id 2 */\r\n{\r\n    \"lastName\": \"Owais\" // solo actualizar lastName\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}users/2",
+							"host": [
+								"{{baseUrl}}users"
+							],
+							"path": [
+								"2"
+							]
+						},
+						"description": "Actualiza usuario con id=2, no lo actualiza en el servidor solo lo simulará."
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Return status code 200\", function() {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"El usuario debe estar marcado como eliminado\", function () {\r",
+									"    let jsonData = pm.response.json();\r",
+									"\r",
+									"    // Verificar que la respuesta tiene la propiedad isDeleted\r",
+									"    pm.expect(jsonData).to.have.property(\"isDeleted\");\r",
+									"    \r",
+									"    // Verificar que isDeleted sea true\r",
+									"    pm.expect(jsonData.isDeleted).to.be.true;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}users/2",
+							"host": [
+								"{{baseUrl}}users"
+							],
+							"path": [
+								"2"
+							]
+						},
+						"description": "Elimina usuario con id=1, no lo elimina en el servidor solo lo simulará.\n\n1. Verifica código de estado 200.\n    \n2. Verificar que la respuesta tiene la propiedad \"isDeleted\".\n    \n3. Verificar que isDeleted sea \"true\""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Recetas",
+			"item": [
+				{
+					"name": "Lista de recetas",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type header is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Recipes array is present and contains at least one element\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.recipes).to.exist.and.to.be.an('array').that.is.not.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Each recipe object has non-empty name, ingredients, instructions, and cuisine\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.recipes).to.be.an('array');",
+									"    responseData.recipes.forEach(function(recipe) {",
+									"        pm.expect(recipe.name).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"Name should not be empty\");",
+									"        pm.expect(recipe.ingredients).to.exist.and.to.be.an('array').and.to.have.lengthOf.at.least(1, \"Ingredients should not be empty\");",
+									"        pm.expect(recipe.instructions).to.exist.and.to.be.an('array').and.to.have.lengthOf.at.least(1, \"Instructions should not be empty\");",
+									"        pm.expect(recipe.cuisine).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"Cuisine should not be empty\");",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Total, skip, and limit are non-negative integers\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.total).to.be.a('number');",
+									"    pm.expect(responseData.total).to.be.at.least(0);",
+									"",
+									"    pm.expect(responseData.skip).to.be.a('number');",
+									"    pm.expect(responseData.skip).to.be.at.least(0);",
+									"",
+									"    pm.expect(responseData.limit).to.be.a('number');",
+									"    pm.expect(responseData.limit).to.be.at.least(0);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}recipes",
+							"host": [
+								"{{baseUrl}}recipes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ordenar recetas",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type header is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Recipes array should exist and be an array\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.recipes).to.be.an('array');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Name is a non-empty string\", function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.recipes[0].name).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+									"});",
+									"",
+									"pm.test(\"Ingredients is a non-empty array\", function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.recipes[0].ingredients).to.be.an('array').and.to.have.lengthOf.at.least(1, \"Array should not be empty\");",
+									"});",
+									"",
+									"pm.test(\"Instructions is a non-empty array\", function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.recipes[0].instructions).to.be.an('array').and.to.have.lengthOf.at.least(1, \"Array should not be empty\");",
+									"});",
+									"",
+									"pm.test(\"PrepTimeMinutes is a non-negative integer\", function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.recipes[0].prepTimeMinutes).to.be.a('number').and.to.be.at.least(0, \"Value should be a non-negative integer\");",
+									"});",
+									"",
+									"pm.test(\"CookTimeMinutes is a non-negative integer\", function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.recipes[0].cookTimeMinutes).to.be.a('number').and.to.be.at.least(0, \"Value should be a non-negative integer\");",
+									"});",
+									"",
+									"pm.test(\"Servings is a non-negative integer\", function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.recipes[0].servings).to.be.a('number').and.to.be.at.least(0, \"Value should be a non-negative integer\");",
+									"});",
+									"",
+									"pm.test(\"CaloriesPerServing is a non-negative integer\", function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.recipes[0].caloriesPerServing).to.be.a('number').and.to.be.at.least(0, \"Value should be a non-negative integer\");",
+									"});",
+									"",
+									"pm.test(\"UserId is a non-negative integer\", function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.recipes[0].userId).to.be.a('number').and.to.be.at.least(0, \"Value should be a non-negative integer\");",
+									"});",
+									"",
+									"pm.test(\"Image is a non-empty string\", function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.recipes[0].image).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+									"});",
+									"",
+									"pm.test(\"Rating is a non-negative integer\", function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.recipes[0].rating).to.be.a('number').and.to.be.at.least(0, \"Value should be a non-negative integer\");",
+									"});",
+									"",
+									"pm.test(\"ReviewCount is a non-negative integer\", function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.recipes[0].reviewCount).to.be.a('number').and.to.be.at.least(0, \"Value should be a non-negative integer\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Total, skip, and limit are present and non-negative integers\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    responseData.recipes.forEach(recipe => {",
+									"        pm.expect(recipe.id).to.be.a('number');",
+									"        pm.expect(recipe.name).to.be.a('string');",
+									"        pm.expect(recipe.ingredients).to.be.an('array');",
+									"        pm.expect(recipe.instructions).to.be.an('array');",
+									"        pm.expect(recipe.prepTimeMinutes).to.be.a('number');",
+									"        pm.expect(recipe.cookTimeMinutes).to.be.a('number');",
+									"        pm.expect(recipe.servings).to.be.a('number');",
+									"        pm.expect(recipe.difficulty).to.be.a('string');",
+									"        pm.expect(recipe.cuisine).to.be.a('string');",
+									"        pm.expect(recipe.caloriesPerServing).to.be.a('number');",
+									"        pm.expect(recipe.tags).to.be.an('array');",
+									"        pm.expect(recipe.userId).to.be.a('number');",
+									"        pm.expect(recipe.image).to.be.a('string');",
+									"        pm.expect(recipe.rating).to.be.a('number');",
+									"        pm.expect(recipe.reviewCount).to.be.a('number');",
+									"        pm.expect(recipe.mealType).to.be.an('array');",
+									"    });",
+									"    ",
+									"    pm.expect(responseData.total).to.be.a('number').and.to.be.at.least(0);",
+									"    pm.expect(responseData.skip).to.be.a('number').and.to.be.at.least(0);",
+									"    pm.expect(responseData.limit).to.be.a('number').and.to.be.at.least(0);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}recipes?limit=10&skip=5&sortBy=name&order=asc",
+							"host": [
+								"{{baseUrl}}recipes"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "skip",
+									"value": "5"
+								},
+								{
+									"key": "sortBy",
+									"value": "name"
+								},
+								{
+									"key": "order",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Recetas con chocolate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content type is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Recipes array is present and contains at least one element\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.recipes).to.exist.and.to.be.an('array').that.is.not.empty;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Each recipe in the 'recipes' array has non-empty required properties\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.recipes).to.be.an('array').that.is.not.empty;",
+									"",
+									"    responseData.recipes.forEach((recipe) => {",
+									"        pm.expect(recipe.id).to.be.a('number').that.is.above(0, \"ID should be a non-empty number\");",
+									"        pm.expect(recipe.name).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Name should not be empty\");",
+									"        pm.expect(recipe.ingredients).to.be.an('array').that.is.not.empty;",
+									"        pm.expect(recipe.instructions).to.be.an('array').that.is.not.empty;",
+									"        pm.expect(recipe.difficulty).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Difficulty should not be empty\");",
+									"        pm.expect(recipe.cuisine).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Cuisine should not be empty\");",
+									"        pm.expect(recipe.tags).to.be.an('array').that.is.not.empty;",
+									"        pm.expect(recipe.image).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Image should not be empty\");",
+									"        pm.expect(recipe.mealType).to.be.an('array').that.is.not.empty;",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Total, skip, and limit are non-negative integers\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.total).to.be.a('number').and.to.be.at.least(0);",
+									"    pm.expect(responseData.skip).to.be.a('number').and.to.be.at.least(0);",
+									"    pm.expect(responseData.limit).to.be.a('number').and.to.be.at.least(0);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}recipes/search?q=Chocolate",
+							"host": [
+								"{{baseUrl}}recipes"
+							],
+							"path": [
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "Chocolate"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Tipo de comida",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content type is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the 'recipes' array\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.recipes).to.exist.and.to.be.an('array');",
+									"    responseData.recipes.forEach(function(recipe) {",
+									"        pm.expect(recipe).to.be.an('object');",
+									"        pm.expect(recipe).to.have.property('id');",
+									"        pm.expect(recipe).to.have.property('name');",
+									"        pm.expect(recipe.ingredients).to.be.an('array');",
+									"        pm.expect(recipe.instructions).to.be.an('array');",
+									"        pm.expect(recipe).to.have.property('prepTimeMinutes');",
+									"        pm.expect(recipe).to.have.property('cookTimeMinutes');",
+									"        pm.expect(recipe).to.have.property('servings');",
+									"        pm.expect(recipe).to.have.property('difficulty');",
+									"        pm.expect(recipe).to.have.property('cuisine');",
+									"        pm.expect(recipe).to.have.property('caloriesPerServing');",
+									"        pm.expect(recipe.tags).to.be.an('array');",
+									"        pm.expect(recipe).to.have.property('userId');",
+									"        pm.expect(recipe).to.have.property('image');",
+									"        pm.expect(recipe).to.have.property('rating');",
+									"        pm.expect(recipe).to.have.property('reviewCount');",
+									"        pm.expect(recipe.mealType).to.be.an('array');",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Total, skip, and limit are non-negative integers\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.total).to.be.a('number').and.to.be.at.least(0);",
+									"    pm.expect(responseData.skip).to.be.a('number').and.to.be.at.least(0);",
+									"    pm.expect(responseData.limit).to.be.a('number').and.to.be.at.least(0);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Name, ingredients, instructions, difficulty, cuisine, tags, and image are non-empty strings\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.recipes).to.be.an('array');",
+									"    ",
+									"    responseData.recipes.forEach(recipe => {",
+									"        pm.expect(recipe.name).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Name should not be empty\");",
+									"        pm.expect(recipe.ingredients).to.be.an('array').and.to.have.lengthOf.at.least(1, \"Ingredients should not be empty\");",
+									"        pm.expect(recipe.instructions).to.be.an('array').and.to.have.lengthOf.at.least(1, \"Instructions should not be empty\");",
+									"        pm.expect(recipe.difficulty).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Difficulty should not be empty\");",
+									"        pm.expect(recipe.cuisine).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Cuisine should not be empty\");",
+									"        pm.expect(recipe.tags).to.be.an('array').and.to.have.lengthOf.at.least(1, \"Tags should not be empty\");",
+									"        pm.expect(recipe.image).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Image should not be empty\");",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}recipes/meal-type/dinner?limit=10",
+							"host": [
+								"{{baseUrl}}recipes"
+							],
+							"path": [
+								"meal-type",
+								"dinner"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Carro",
+			"item": [
+				{
+					"name": "Carrito de user por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"El código de estado de respuesta es 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validate the structure of the carts array\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.carts).to.be.an('array');",
+									"    responseData.carts.forEach(function(cart) {",
+									"        pm.expect(cart).to.be.an('object');",
+									"        pm.expect(cart.products).to.be.an('array');",
+									"        pm.expect(cart.total).to.be.a('number');",
+									"        pm.expect(cart.discountedTotal).to.be.a('number');",
+									"        pm.expect(cart.userId).to.be.a('number');",
+									"        pm.expect(cart.totalProducts).to.be.a('number');",
+									"        pm.expect(cart.totalQuantity).to.be.a('number');",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Cada producto en la matriz 'productos' tiene valores no negativos de precio, cantidad, total, porcentaje de descuento y total descontado.\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.carts).to.be.an('array');",
+									"    responseData.carts.forEach(cart => {",
+									"        pm.expect(cart.products).to.be.an('array');",
+									"        cart.products.forEach(product => {",
+									"            pm.expect(product.price).to.be.at.least(0);",
+									"            pm.expect(product.quantity).to.be.at.least(0);",
+									"            pm.expect(product.total).to.be.at.least(0);",
+									"            pm.expect(product.discountPercentage).to.be.at.least(0);",
+									"            pm.expect(product.discountedTotal).to.be.at.least(0);",
+									"        });",
+									"    });",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}carts/user/6",
+							"host": [
+								"{{baseUrl}}carts"
+							],
+							"path": [
+								"user",
+								"6"
+							]
+						},
+						"description": "Obtener carro del usuario con id (6)"
+					},
+					"response": []
+				},
+				{
+					"name": "Lista de Productos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"El código de estado de respuesta es 200\", function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"pm.test(\"Validar los productos array\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.products).to.be.an('array').and.to.have.length.above(0);",
+									"    responseData.products.forEach(function(product) {",
+									"        pm.expect(product).to.have.property('id').that.is.a('number');",
+									"        pm.expect(product).to.have.property('title').that.is.a('string');",
+									"        pm.expect(product).to.have.property('description').that.is.a('string');",
+									"        pm.expect(product).to.have.property('category').that.is.a('string');",
+									"        pm.expect(product).to.have.property('price').that.is.a('number');",
+									"        pm.expect(product).to.have.property('discountPercentage').that.is.a('number');",
+									"        pm.expect(product).to.have.property('rating').that.is.a('number');",
+									"        pm.expect(product).to.have.property('stock').that.is.a('number');",
+									"        pm.expect(product).to.have.property('tags').that.is.an('array');",
+									"        pm.expect(product).to.have.property('brand').that.is.a('string');",
+									"        pm.expect(product).to.have.property('sku').that.is.a('string');",
+									"        pm.expect(product).to.have.property('weight').that.is.a('number');",
+									"        pm.expect(product).to.have.property('dimensions').that.is.an('object');",
+									"        pm.expect(product).to.have.property('warrantyInformation').that.is.a('string');",
+									"        pm.expect(product).to.have.property('shippingInformation').that.is.a('string');",
+									"        pm.expect(product).to.have.property('availabilityStatus').that.is.a('string');",
+									"        pm.expect(product).to.have.property('reviews').that.is.an('array');",
+									"        pm.expect(product).to.have.property('returnPolicy').that.is.a('string');",
+									"        pm.expect(product).to.have.property('minimumOrderQuantity').that.is.a('number');",
+									"        pm.expect(product).to.have.property('meta').that.is.an('object');",
+									"        pm.expect(product).to.have.property('images').that.is.an('array');",
+									"        pm.expect(product).to.have.property('thumbnail').that.is.a('string');",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Los campos de total, omisión y límite están presentes en la respuesta\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.include.all.keys('total', 'skip', 'limit');",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}products",
+							"host": [
+								"{{baseUrl}}products"
+							]
+						},
+						"description": "Obtener lista de productos"
+					},
+					"response": []
+				},
+				{
+					"name": "Lista de carros",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"El código de estado de respuesta es 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"La matriz de carritos y sus objetos anidados tienen la estructura correcta\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.carts).to.be.an('array');",
+									"    ",
+									"    responseData.carts.forEach(function(cart) {",
+									"        pm.expect(cart).to.have.property('id').that.is.a('number');",
+									"        pm.expect(cart).to.have.property('products').that.is.an('array');",
+									"        pm.expect(cart).to.have.property('total').that.is.a('number');",
+									"        pm.expect(cart).to.have.property('discountedTotal').that.is.a('number');",
+									"        pm.expect(cart).to.have.property('userId').that.is.a('number');",
+									"        pm.expect(cart).to.have.property('totalProducts').that.is.a('number');",
+									"        pm.expect(cart).to.have.property('totalQuantity').that.is.a('number');",
+									"        ",
+									"        cart.products.forEach(function(product) {",
+									"            pm.expect(product).to.have.property('id').that.is.a('number');",
+									"            pm.expect(product).to.have.property('title').that.is.a('string');",
+									"            pm.expect(product).to.have.property('price').that.is.a('number');",
+									"            pm.expect(product).to.have.property('quantity').that.is.a('number');",
+									"            pm.expect(product).to.have.property('total').that.is.a('number');",
+									"            pm.expect(product).to.have.property('discountPercentage').that.is.a('number');",
+									"            pm.expect(product).to.have.property('discountedTotal').that.is.a('number');",
+									"            pm.expect(product).to.have.property('thumbnail').that.is.a('string');",
+									"        });",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"El campo UserId está presente y es un número entero no negativo\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.carts).to.be.an('array');",
+									"    ",
+									"    responseData.carts.forEach(cart => {",
+									"        pm.expect(cart.userId).to.exist;",
+									"        pm.expect(cart.userId).to.be.a('number');",
+									"        pm.expect(cart.userId).to.satisfy(userId => userId >= 0, \"UserId should be a non-negative integer\");",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"La matriz de productos dentro de cada carrito no está vacía\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.carts).to.be.an('array');",
+									"    responseData.carts.forEach(function(cart) {",
+									"        pm.expect(cart.products).to.be.an('array').that.is.not.empty;",
+									"    });",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}carts",
+							"host": [
+								"{{baseUrl}}carts"
+							]
+						},
+						"description": "Obtener lista completa de los carritos"
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar un nuevo carro",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"let jsonData = pm.response.json();\r",
+									"\r",
+									"const userSchema = {\r",
+									"    type: 'object',\r",
+									"    required: ['userId', 'products'],\r",
+									"    properties: {\r",
+									"        userId: { type: 'integer' },\r",
+									"        products: {\r",
+									"            type: 'array',\r",
+									"            items: {\r",
+									"                type: 'object',\r",
+									"                required: ['id', 'quantity'],\r",
+									"                properties: {\r",
+									"                    id: { type: 'integer' },  // <- Aquí se exige que sea integer\r",
+									"                    quantity: { type: 'integer' }\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.test('Se cumple el usuario con el esquema', () => {\r",
+									"    pm.response.to.have.jsonSchema(userSchema);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"// Guarda el ID del carrito en una variable de entorno\r",
+									"pm.collectionVariables.set(\"idCarro\", jsonData.id);\r",
+									"console.log(\"ID del carrito guardado:\", jsonData.id);\r",
+									"\r",
+									"// Verifica que la respuesta contiene productos\r",
+									"pm.test(\"La respuesta contiene productos\", function () {\r",
+									"    pm.expect(jsonData).to.have.property(\"products\");\r",
+									"    pm.expect(jsonData.products).to.be.an(\"array\").that.is.not.empty;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// Verifica que cada producto tiene un ID y cantidad válidos\r",
+									"pm.test(\"Los productos tienen ID y cantidad válidos\", function () {\r",
+									"    jsonData.products.forEach(product => {\r",
+									"        pm.expect(product).to.have.property(\"id\").that.is.a(\"number\");\r",
+									"        pm.expect(product).to.have.property(\"quantity\").that.is.a(\"number\");\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": 1,\r\n  \"products\": [\r\n    {\r\n      \"id\": 1,\r\n      \"quantity\": 2\r\n    },\r\n    {\r\n      \"id\": 2,\r\n      \"quantity\": 3\r\n    }\r\n\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}carts/add",
+							"host": [
+								"{{baseUrl}}carts"
+							],
+							"path": [
+								"add"
+							]
+						},
+						"description": "#### Agregara un nuevo carrito usuario con ID=1, no lo agrega en el servidor, solo lo simulará.\n\n#### Validaciones realizadas:\n\n1. Verifica código de estado 201 (creado).\n    \n2. Guarda el ID del carrito en una variable de entorno llamada (idCarro).\n    \n3. Imprime el ID del carrito por consola para la depuración.\n    \n4. Verifica que cada producto tiene ID y cantidad correcto tipo (numero)"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar carrito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"merge\": true,\r\n  \"products\": [\r\n    {\r\n      \"id\": 1,\r\n      \"quantity\": 1\t\t\r\n    },\r\n\t\t{\r\n      \"id\": 2,\r\n      \"quantity\": 3\r\n\t\t\t\r\n    }  \r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}carts/1",
+							"host": [
+								"{{baseUrl}}carts"
+							],
+							"path": [
+								"1"
+							]
+						},
+						"description": "Actualizará un carrito existente (**id=1**) agregando nuevos productos sin eliminar los que ya tiene."
+					},
+					"response": []
+				},
+				{
+					"name": "Carro por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"pm.test(\"El campo de identificación es un número entero no negativo\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.id).to.be.a('number');",
+									"    pm.expect(responseData.id).to.be.at.least(0, \"Id should be a non-negative integer\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"La matriz de productos está presente y contiene la cantidad esperada de elementos.\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.products).to.exist.and.to.be.an('array');",
+									"    pm.expect(responseData.products).to.have.lengthOf.at.least(1, \"Products array should contain at least one element\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validar propiedades del producto\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    ",
+									"    responseData.products.forEach(function(product) {",
+									"        pm.expect(product.title).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Title should be a non-empty string\");",
+									"        pm.expect(product.price).to.be.a('number').and.to.be.at.least(0, \"Price should be a non-negative number\");",
+									"        pm.expect(product.quantity).to.be.a('number').and.to.be.at.least(0, \"Quantity should be a non-negative number\");",
+									"        pm.expect(product.total).to.be.a('number').and.to.be.at.least(0, \"Total should be a non-negative number\");",
+									"        pm.expect(product.discountPercentage).to.be.a('number').and.to.be.at.least(0, \"Discount percentage should be a non-negative number\");",
+									"        pm.expect(product.discountedTotal).to.be.a('number').and.to.be.at.least(0, \"Discounted total should be a non-negative number\");",
+									"        pm.expect(product.thumbnail).to.match(/^https?:\\/\\/[^\\s/$.?#].[^\\s]*$/, \"Thumbnail should be a valid URL\");",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}carts/1",
+							"host": [
+								"{{baseUrl}}carts"
+							],
+							"path": [
+								"1"
+							]
+						},
+						"description": "Obtener un carro en en expecifico por Id 5"
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar carrito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Return status code 200\", function() {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"El carrito debe estar marcado como eliminado\", function () {\r",
+									"    let jsonData = pm.response.json();\r",
+									"\r",
+									"    // Verificar que la respuesta tiene la propiedad isDeleted\r",
+									"    pm.expect(jsonData).to.have.property(\"isDeleted\");\r",
+									"    \r",
+									"    // Verificar que isDeleted sea true\r",
+									"    pm.expect(jsonData.isDeleted).to.be.true;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}carts/1",
+							"host": [
+								"{{baseUrl}}carts"
+							],
+							"path": [
+								"1"
+							]
+						},
+						"description": "Elimina carrito con id=1, no lo elimina en el servidor solo lo simulará.\n\n1. Verifica código de estado 200.\n    \n2. Verificar que la respuesta tiene la propiedad \"isDeleted\".\n    \n3. Verificar que isDeleted sea \"true\""
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{authToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": ""
+		},
+		{
+			"key": "authToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "baseUrl",
+			"value": "https://dummyjson.com/",
+			"type": "string"
+		},
+		{
+			"key": "idCarro",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "nuevoUsuario",
+			"value": ""
+		}
+	]
+}

@@ -1,0 +1,1168 @@
+{
+	"id": "b22d2f5c-fa76-47e7-98f6-8a2c4db3c848",
+	"name": "DummyJSON API Tests",
+	"timestamp": "2025-02-04T15:32:12.257Z",
+	"collection_id": "34191224-88bcf6b6-d4ec-405e-b3ee-e51047d1080a",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 91,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2025-02-04T15:32:05.132Z",
+	"totalFail": 1,
+	"results": [
+		{
+			"id": "abec7ea7-6643-4899-89fc-88346bd0c9c1",
+			"name": "Obtener lista de usuarios",
+			"url": "https://dummyjson.com//users/",
+			"time": 121,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code es 200": true,
+				"La respuesta contiene usuarios": true
+			},
+			"testPassFailCounts": {
+				"Status code es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La respuesta contiene usuarios": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				121
+			],
+			"allTests": [
+				{
+					"Status code es 200": true,
+					"La respuesta contiene usuarios": true
+				}
+			]
+		},
+		{
+			"id": "c9d9f454-06fc-48a0-b4b3-ab3d344acef3",
+			"name": "Login y obtener token",
+			"url": "https://dummyjson.com/auth/login",
+			"time": 122,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response status code is 200": true,
+				"Content-Type header is application/json": true,
+				"Response time is less than 200ms": true,
+				"Validate the response body has the required fields": true,
+				"Email is in a valid format": true,
+				"AccessToken and RefreshToken are non-empty strings": true
+			},
+			"testPassFailCounts": {
+				"Response status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Content-Type header is application/json": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is less than 200ms": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validate the response body has the required fields": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Email is in a valid format": {
+					"pass": 1,
+					"fail": 0
+				},
+				"AccessToken and RefreshToken are non-empty strings": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				122
+			],
+			"allTests": [
+				{
+					"Response status code is 200": true,
+					"Content-Type header is application/json": true,
+					"Response time is less than 200ms": true,
+					"Validate the response body has the required fields": true,
+					"Email is in a valid format": true,
+					"AccessToken and RefreshToken are non-empty strings": true
+				}
+			]
+		},
+		{
+			"id": "9c8b3423-0f20-452a-bebf-eccc8f14879b",
+			"name": "Usuario auth",
+			"url": "https://dummyjson.com/auth/me",
+			"time": 117,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response status code is 200": true,
+				"Content-Type header is application/json": true,
+				"Validate the user object": true,
+				"Email is in a valid format": true,
+				"Hair object contains valid color and type properties": true
+			},
+			"testPassFailCounts": {
+				"Response status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Content-Type header is application/json": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validate the user object": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Email is in a valid format": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Hair object contains valid color and type properties": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				117
+			],
+			"allTests": [
+				{
+					"Response status code is 200": true,
+					"Content-Type header is application/json": true,
+					"Validate the user object": true,
+					"Email is in a valid format": true,
+					"Hair object contains valid color and type properties": true
+				}
+			]
+		},
+		{
+			"id": "1818a8a3-7c29-4317-82a4-bc15e451658e",
+			"name": "Obtener imagen",
+			"url": "https://dummyjson.com/image/150",
+			"time": 126,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				126
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "8709d55e-6cf6-475a-b33f-16453cac6ba1",
+			"name": "Personalizar imagen",
+			"url": "https://dummyjson.com/image/400x300/008080/ffffff?text=Hello+Victor",
+			"time": 133,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				133
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "19b1d0ec-6850-440a-9769-978915d6e42e",
+			"name": "Obtener usuarios",
+			"url": "https://dummyjson.com/users/",
+			"time": 119,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response status code is 200": true,
+				"Validate the users array in the response": true,
+				"Email is in a valid format": true,
+				"Total is a non-negative integer": true,
+				"Validate user properties": true
+			},
+			"testPassFailCounts": {
+				"Response status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validate the users array in the response": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Email is in a valid format": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Total is a non-negative integer": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validate user properties": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				119
+			],
+			"allTests": [
+				{
+					"Response status code is 200": true,
+					"Validate the users array in the response": true,
+					"Email is in a valid format": true,
+					"Total is a non-negative integer": true,
+					"Validate user properties": true
+				}
+			]
+		},
+		{
+			"id": "ebd2eca8-5761-42ef-820f-3dd35669334d",
+			"name": "Usuarios por nombres",
+			"url": "https://dummyjson.com/users/search?q=Stella",
+			"time": 120,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response status code is 200": true,
+				"Content-Type header is application/json": true,
+				"Validate the users array": true,
+				"Response time is less than 200ms": true,
+				"Verify the structure and data types of the user object": true,
+				"Response includes expected total, skip, and limit properties": true
+			},
+			"testPassFailCounts": {
+				"Response status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Content-Type header is application/json": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validate the users array": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is less than 200ms": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Verify the structure and data types of the user object": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response includes expected total, skip, and limit properties": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				120
+			],
+			"allTests": [
+				{
+					"Response status code is 200": true,
+					"Content-Type header is application/json": true,
+					"Validate the users array": true,
+					"Response time is less than 200ms": true,
+					"Verify the structure and data types of the user object": true,
+					"Response includes expected total, skip, and limit properties": true
+				}
+			]
+		},
+		{
+			"id": "dd40502e-dfe0-47e7-9ef8-a3185ecadda7",
+			"name": "Carro de usuario",
+			"url": "https://dummyjson.com/users/6/carts",
+			"time": 116,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response status code is 200": true,
+				"Content-Type header is application/json": true,
+				"Carts array and nested objects have correct structure": true,
+				"Total, skip, and limit are present in the response": true,
+				"Verify that the 'products' array contains at least one element": true,
+				"Verify the required fields in 'products' array": true
+			},
+			"testPassFailCounts": {
+				"Response status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Content-Type header is application/json": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Carts array and nested objects have correct structure": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Total, skip, and limit are present in the response": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Verify that the 'products' array contains at least one element": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Verify the required fields in 'products' array": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				116
+			],
+			"allTests": [
+				{
+					"Response status code is 200": true,
+					"Content-Type header is application/json": true,
+					"Carts array and nested objects have correct structure": true,
+					"Total, skip, and limit are present in the response": true,
+					"Verify that the 'products' array contains at least one element": true,
+					"Verify the required fields in 'products' array": true
+				}
+			]
+		},
+		{
+			"id": "5901dcab-c46d-430f-bc61-7138ca6175ab",
+			"name": "Filtrar usuario",
+			"url": "https://dummyjson.com/users/filter?key=address.city&value=Phoenix&limit=5&skip=10&select=firstName,age,address",
+			"time": 118,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Filtrar solo nombre, edad y color de cabello": true
+			},
+			"testPassFailCounts": {
+				"Filtrar solo nombre, edad y color de cabello": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				118
+			],
+			"allTests": [
+				{
+					"Filtrar solo nombre, edad y color de cabello": true
+				}
+			]
+		},
+		{
+			"id": "81588a18-5fd7-43aa-abb9-d0ed8f1afd8b",
+			"name": "Agregar usuario",
+			"url": "https://dummyjson.com/users/add",
+			"time": 118,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Comprobar usuario se ha creado correctamente": true
+			},
+			"testPassFailCounts": {
+				"Comprobar usuario se ha creado correctamente": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				118
+			],
+			"allTests": [
+				{
+					"Comprobar usuario se ha creado correctamente": true
+				}
+			]
+		},
+		{
+			"id": "d30cf44f-346b-42c0-835a-fd45d6586751",
+			"name": "Obtener usuario por ID",
+			"url": "https://dummyjson.com/users/1",
+			"time": 116,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response status code is 200": true,
+				"Response time is less than 200ms": true,
+				"The response should be a valid JSON object": true,
+				"Validate the structure of the 'address' object": true,
+				"Company object contains expected fields": true
+			},
+			"testPassFailCounts": {
+				"Response status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is less than 200ms": {
+					"pass": 1,
+					"fail": 0
+				},
+				"The response should be a valid JSON object": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validate the structure of the 'address' object": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Company object contains expected fields": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				116
+			],
+			"allTests": [
+				{
+					"Response status code is 200": true,
+					"Response time is less than 200ms": true,
+					"The response should be a valid JSON object": true,
+					"Validate the structure of the 'address' object": true,
+					"Company object contains expected fields": true
+				}
+			]
+		},
+		{
+			"id": "14b4d690-1977-4492-a176-ab97360b1123",
+			"name": "Actualizar usuario",
+			"url": "https://dummyjson.com/users/2",
+			"time": 117,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response status code is 200": true,
+				"Response time is less than 200ms": true
+			},
+			"testPassFailCounts": {
+				"Response status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is less than 200ms": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				117
+			],
+			"allTests": [
+				{
+					"Response status code is 200": true,
+					"Response time is less than 200ms": true
+				}
+			]
+		},
+		{
+			"id": "b9095c1e-9aca-47a9-b32a-7eb3d5933b02",
+			"name": "Eliminar usuario",
+			"url": "https://dummyjson.com/users/2",
+			"time": 120,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Return status code 200": true,
+				"El usuario debe estar marcado como eliminado": true
+			},
+			"testPassFailCounts": {
+				"Return status code 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"El usuario debe estar marcado como eliminado": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				120
+			],
+			"allTests": [
+				{
+					"Return status code 200": true,
+					"El usuario debe estar marcado como eliminado": true
+				}
+			]
+		},
+		{
+			"id": "93e1225a-e5b0-45ce-8fe6-b51497baeff2",
+			"name": "Lista de recetas",
+			"url": "https://dummyjson.com/recipes",
+			"time": 118,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response status code is 200": true,
+				"Content-Type header is application/json": true,
+				"Recipes array is present and contains at least one element": true,
+				"Each recipe object has non-empty name, ingredients, instructions, and cuisine": true,
+				"Total, skip, and limit are non-negative integers": true
+			},
+			"testPassFailCounts": {
+				"Response status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Content-Type header is application/json": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Recipes array is present and contains at least one element": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Each recipe object has non-empty name, ingredients, instructions, and cuisine": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Total, skip, and limit are non-negative integers": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				118
+			],
+			"allTests": [
+				{
+					"Response status code is 200": true,
+					"Content-Type header is application/json": true,
+					"Recipes array is present and contains at least one element": true,
+					"Each recipe object has non-empty name, ingredients, instructions, and cuisine": true,
+					"Total, skip, and limit are non-negative integers": true
+				}
+			]
+		},
+		{
+			"id": "38afe843-6e25-459e-bf8d-e51167de1675",
+			"name": "Ordenar recetas",
+			"url": "https://dummyjson.com/recipes?limit=10&skip=5&sortBy=name&order=asc",
+			"time": 118,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response status code is 200": true,
+				"Content-Type header is application/json": true,
+				"Recipes array should exist and be an array": true,
+				"Name is a non-empty string": true,
+				"Ingredients is a non-empty array": true,
+				"Instructions is a non-empty array": true,
+				"PrepTimeMinutes is a non-negative integer": true,
+				"CookTimeMinutes is a non-negative integer": true,
+				"Servings is a non-negative integer": true,
+				"CaloriesPerServing is a non-negative integer": true,
+				"UserId is a non-negative integer": true,
+				"Image is a non-empty string": true,
+				"Rating is a non-negative integer": true,
+				"ReviewCount is a non-negative integer": true,
+				"Total, skip, and limit are present and non-negative integers": true
+			},
+			"testPassFailCounts": {
+				"Response status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Content-Type header is application/json": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Recipes array should exist and be an array": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Name is a non-empty string": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Ingredients is a non-empty array": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Instructions is a non-empty array": {
+					"pass": 1,
+					"fail": 0
+				},
+				"PrepTimeMinutes is a non-negative integer": {
+					"pass": 1,
+					"fail": 0
+				},
+				"CookTimeMinutes is a non-negative integer": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Servings is a non-negative integer": {
+					"pass": 1,
+					"fail": 0
+				},
+				"CaloriesPerServing is a non-negative integer": {
+					"pass": 1,
+					"fail": 0
+				},
+				"UserId is a non-negative integer": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Image is a non-empty string": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Rating is a non-negative integer": {
+					"pass": 1,
+					"fail": 0
+				},
+				"ReviewCount is a non-negative integer": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Total, skip, and limit are present and non-negative integers": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				118
+			],
+			"allTests": [
+				{
+					"Response status code is 200": true,
+					"Content-Type header is application/json": true,
+					"Recipes array should exist and be an array": true,
+					"Name is a non-empty string": true,
+					"Ingredients is a non-empty array": true,
+					"Instructions is a non-empty array": true,
+					"PrepTimeMinutes is a non-negative integer": true,
+					"CookTimeMinutes is a non-negative integer": true,
+					"Servings is a non-negative integer": true,
+					"CaloriesPerServing is a non-negative integer": true,
+					"UserId is a non-negative integer": true,
+					"Image is a non-empty string": true,
+					"Rating is a non-negative integer": true,
+					"ReviewCount is a non-negative integer": true,
+					"Total, skip, and limit are present and non-negative integers": true
+				}
+			]
+		},
+		{
+			"id": "a667eefa-945a-4087-8667-135368826a7b",
+			"name": "Recetas con chocolate",
+			"url": "https://dummyjson.com/recipes/search?q=Chocolate",
+			"time": 139,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response status code is 200": true,
+				"Content type is application/json": true,
+				"Recipes array is present and contains at least one element": true,
+				"Each recipe in the 'recipes' array has non-empty required properties": true,
+				"Total, skip, and limit are non-negative integers": true
+			},
+			"testPassFailCounts": {
+				"Response status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Content type is application/json": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Recipes array is present and contains at least one element": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Each recipe in the 'recipes' array has non-empty required properties": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Total, skip, and limit are non-negative integers": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				139
+			],
+			"allTests": [
+				{
+					"Response status code is 200": true,
+					"Content type is application/json": true,
+					"Recipes array is present and contains at least one element": true,
+					"Each recipe in the 'recipes' array has non-empty required properties": true,
+					"Total, skip, and limit are non-negative integers": true
+				}
+			]
+		},
+		{
+			"id": "7ffbec29-f22a-4cb5-908d-0f1f9181e9b5",
+			"name": "Tipo de comida",
+			"url": "https://dummyjson.com/recipes/meal-type/dinner?limit=10",
+			"time": 116,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response status code is 200": true,
+				"Content type is application/json": true,
+				"Validate the 'recipes' array": true,
+				"Total, skip, and limit are non-negative integers": true,
+				"Name, ingredients, instructions, difficulty, cuisine, tags, and image are non-empty strings": true
+			},
+			"testPassFailCounts": {
+				"Response status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Content type is application/json": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validate the 'recipes' array": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Total, skip, and limit are non-negative integers": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Name, ingredients, instructions, difficulty, cuisine, tags, and image are non-empty strings": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				116
+			],
+			"allTests": [
+				{
+					"Response status code is 200": true,
+					"Content type is application/json": true,
+					"Validate the 'recipes' array": true,
+					"Total, skip, and limit are non-negative integers": true,
+					"Name, ingredients, instructions, difficulty, cuisine, tags, and image are non-empty strings": true
+				}
+			]
+		},
+		{
+			"id": "73dfd300-4c2b-4b9c-b521-7ad3079801b6",
+			"name": "Carrito de user por ID",
+			"url": "https://dummyjson.com/carts/user/6",
+			"time": 118,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"El código de estado de respuesta es 200": true,
+				"Validate the structure of the carts array": true,
+				"Cada producto en la matriz 'productos' tiene valores no negativos de precio, cantidad, total, porcentaje de descuento y total descontado.": true
+			},
+			"testPassFailCounts": {
+				"El código de estado de respuesta es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validate the structure of the carts array": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Cada producto en la matriz 'productos' tiene valores no negativos de precio, cantidad, total, porcentaje de descuento y total descontado.": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				118
+			],
+			"allTests": [
+				{
+					"El código de estado de respuesta es 200": true,
+					"Validate the structure of the carts array": true,
+					"Cada producto en la matriz 'productos' tiene valores no negativos de precio, cantidad, total, porcentaje de descuento y total descontado.": true
+				}
+			]
+		},
+		{
+			"id": "3421c949-4dcc-42d2-9b1e-19f425522f9c",
+			"name": "Lista de Productos",
+			"url": "https://dummyjson.com/products",
+			"time": 122,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"El código de estado de respuesta es 200": true,
+				"Validar los productos array": false,
+				"Los campos de total, omisión y límite están presentes en la respuesta": true
+			},
+			"testPassFailCounts": {
+				"El código de estado de respuesta es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validar los productos array": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Los campos de total, omisión y límite están presentes en la respuesta": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				122
+			],
+			"allTests": [
+				{
+					"El código de estado de respuesta es 200": true,
+					"Validar los productos array": false,
+					"Los campos de total, omisión y límite están presentes en la respuesta": true
+				}
+			]
+		},
+		{
+			"id": "be0564db-1c9a-4438-b12b-85b69248b1de",
+			"name": "Lista de carros",
+			"url": "https://dummyjson.com/carts",
+			"time": 119,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"El código de estado de respuesta es 200": true,
+				"La matriz de carritos y sus objetos anidados tienen la estructura correcta": true,
+				"El campo UserId está presente y es un número entero no negativo": true,
+				"La matriz de productos dentro de cada carrito no está vacía": true
+			},
+			"testPassFailCounts": {
+				"El código de estado de respuesta es 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La matriz de carritos y sus objetos anidados tienen la estructura correcta": {
+					"pass": 1,
+					"fail": 0
+				},
+				"El campo UserId está presente y es un número entero no negativo": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La matriz de productos dentro de cada carrito no está vacía": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				119
+			],
+			"allTests": [
+				{
+					"El código de estado de respuesta es 200": true,
+					"La matriz de carritos y sus objetos anidados tienen la estructura correcta": true,
+					"El campo UserId está presente y es un número entero no negativo": true,
+					"La matriz de productos dentro de cada carrito no está vacía": true
+				}
+			]
+		},
+		{
+			"id": "8572053e-aa0f-4b19-94f2-dfb5c7f5d225",
+			"name": "Agregar un nuevo carro",
+			"url": "https://dummyjson.com/carts/add",
+			"time": 123,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true,
+				"Se cumple el usuario con el esquema": true,
+				"La respuesta contiene productos": true,
+				"Los productos tienen ID y cantidad válidos": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Se cumple el usuario con el esquema": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La respuesta contiene productos": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Los productos tienen ID y cantidad válidos": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				123
+			],
+			"allTests": [
+				{
+					"Status code is 201": true,
+					"Se cumple el usuario con el esquema": true,
+					"La respuesta contiene productos": true,
+					"Los productos tienen ID y cantidad válidos": true
+				}
+			]
+		},
+		{
+			"id": "2ffcc8b6-0509-44d9-9bc4-85f9fbe092ac",
+			"name": "Actualizar carrito",
+			"url": "https://dummyjson.com/carts/1",
+			"time": 119,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				119
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "9ce7349a-8ee3-41ad-be9b-61e92e051a63",
+			"name": "Carro por ID",
+			"url": "https://dummyjson.com/carts/1",
+			"time": 119,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response status code is 200": true,
+				"El campo de identificación es un número entero no negativo": true,
+				"La matriz de productos está presente y contiene la cantidad esperada de elementos.": true,
+				"Validar propiedades del producto": true
+			},
+			"testPassFailCounts": {
+				"Response status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"El campo de identificación es un número entero no negativo": {
+					"pass": 1,
+					"fail": 0
+				},
+				"La matriz de productos está presente y contiene la cantidad esperada de elementos.": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validar propiedades del producto": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				119
+			],
+			"allTests": [
+				{
+					"Response status code is 200": true,
+					"El campo de identificación es un número entero no negativo": true,
+					"La matriz de productos está presente y contiene la cantidad esperada de elementos.": true,
+					"Validar propiedades del producto": true
+				}
+			]
+		},
+		{
+			"id": "2c69b9fd-fc0e-4c39-b5f6-60e824a6a5a5",
+			"name": "Eliminar carrito",
+			"url": "https://dummyjson.com/carts/1",
+			"time": 118,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Return status code 200": true,
+				"El carrito debe estar marcado como eliminado": true
+			},
+			"testPassFailCounts": {
+				"Return status code 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"El carrito debe estar marcado como eliminado": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				118
+			],
+			"allTests": [
+				{
+					"Return status code 200": true,
+					"El carrito debe estar marcado como eliminado": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 2892,
+	"collection": {
+		"requests": [
+			{
+				"id": "abec7ea7-6643-4899-89fc-88346bd0c9c1",
+				"method": "GET"
+			},
+			{
+				"id": "c9d9f454-06fc-48a0-b4b3-ab3d344acef3",
+				"method": "POST"
+			},
+			{
+				"id": "9c8b3423-0f20-452a-bebf-eccc8f14879b",
+				"method": "GET"
+			},
+			{
+				"id": "1818a8a3-7c29-4317-82a4-bc15e451658e",
+				"method": "GET"
+			},
+			{
+				"id": "8709d55e-6cf6-475a-b33f-16453cac6ba1",
+				"method": "GET"
+			},
+			{
+				"id": "19b1d0ec-6850-440a-9769-978915d6e42e",
+				"method": "GET"
+			},
+			{
+				"id": "ebd2eca8-5761-42ef-820f-3dd35669334d",
+				"method": "GET"
+			},
+			{
+				"id": "dd40502e-dfe0-47e7-9ef8-a3185ecadda7",
+				"method": "GET"
+			},
+			{
+				"id": "5901dcab-c46d-430f-bc61-7138ca6175ab",
+				"method": "GET"
+			},
+			{
+				"id": "81588a18-5fd7-43aa-abb9-d0ed8f1afd8b",
+				"method": "POST"
+			},
+			{
+				"id": "d30cf44f-346b-42c0-835a-fd45d6586751",
+				"method": "GET"
+			},
+			{
+				"id": "14b4d690-1977-4492-a176-ab97360b1123",
+				"method": "PATCH"
+			},
+			{
+				"id": "b9095c1e-9aca-47a9-b32a-7eb3d5933b02",
+				"method": "DELETE"
+			},
+			{
+				"id": "93e1225a-e5b0-45ce-8fe6-b51497baeff2",
+				"method": "GET"
+			},
+			{
+				"id": "38afe843-6e25-459e-bf8d-e51167de1675",
+				"method": "GET"
+			},
+			{
+				"id": "a667eefa-945a-4087-8667-135368826a7b",
+				"method": "GET"
+			},
+			{
+				"id": "7ffbec29-f22a-4cb5-908d-0f1f9181e9b5",
+				"method": "GET"
+			},
+			{
+				"id": "73dfd300-4c2b-4b9c-b521-7ad3079801b6",
+				"method": "GET"
+			},
+			{
+				"id": "3421c949-4dcc-42d2-9b1e-19f425522f9c",
+				"method": "GET"
+			},
+			{
+				"id": "be0564db-1c9a-4438-b12b-85b69248b1de",
+				"method": "GET"
+			},
+			{
+				"id": "8572053e-aa0f-4b19-94f2-dfb5c7f5d225",
+				"method": "POST"
+			},
+			{
+				"id": "2ffcc8b6-0509-44d9-9bc4-85f9fbe092ac",
+				"method": "PATCH"
+			},
+			{
+				"id": "9ce7349a-8ee3-41ad-be9b-61e92e051a63",
+				"method": "GET"
+			},
+			{
+				"id": "2c69b9fd-fc0e-4c39-b5f6-60e824a6a5a5",
+				"method": "DELETE"
+			}
+		]
+	}
+}
