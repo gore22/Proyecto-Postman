@@ -9,7 +9,6 @@ Este proyecto tiene como objetivo automatizar pruebas en Postman para verificar 
 - 📊 Reportes de ejecución generados con Newman.
 
 
-
 ## 🚀 Instalación y Configuración
 
 ### 1️⃣ Instalar Newman y el reporter HTML  
@@ -25,9 +24,10 @@ newman run "collections/DummyJSON API Tests.postman_collection.json" -r html --r
 
 3️⃣ Ver el reporte generado
 
-newman/report.html
+Informe: newman/report.html
+Summary Report: newman/DummyJSON API Tests-2025-02-04-15-49-13-417-0.html
 
-    
+
 ## 🛠 Uso del Proyecto
 
 1. Clonar este repositorio:  
