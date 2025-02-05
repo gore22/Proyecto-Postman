@@ -24,8 +24,8 @@ newman run "collections/DummyJSON API Tests.postman_collection.json" -r html --r
 
 3️⃣ Ver el reporte generado
 
-Informe: newman/report.html
-Summary Report: newman/DummyJSON API Tests-2025-02-04-15-49-13-417-0.html
+reportTest: newman/report.html
+summaryReport: newman/DummyJSON API Tests-2025-02-04-15-49-13-417-0.html
 
 
 ## 🛠 Uso del Proyecto
