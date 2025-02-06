@@ -1,4 +1,3 @@
-
 # 📌 Proyecto de Automatización de Pruebas en Postman 
 
 Este repositorio contiene un conjunto de pruebas automatizadas realizadas en Postman para validar una API. Se incluye la colección de pruebas, entorno y reporte generado con Newman.
@@ -8,41 +7,39 @@ Este proyecto tiene como objetivo automatizar pruebas en Postman para verificar 
 - 📂 Colección de pruebas (`.DummyJSON API Tests.postman_collection.json`).
 - 📊 Reportes de ejecución generados con Newman.
 
-
 ## 🚀 Instalación y Configuración
 
-### 1️⃣ Clonar el repositorio
-Primero, clona este repositorio en tu máquina local:
-```bash
-git clone https://github.com/gore22/Proyecto-Postman.git
+1. **Clonar el repositorio**  
+   Primero, clona este repositorio en tu máquina local:
+   ```bash
+   git clone https://github.com/gore22/Proyecto-Postman.git
+   ```
 
-### 2️⃣ Instalar Newman y el reporter HTML  
-Para ejecutar las pruebas desde la terminal, instala Newman y el reporter en HTML globalmente:  
-```bash
-npm install -g newman newman-reporter-html
+2. **Instalar Newman y el reporter HTML**  
+   Para ejecutar las pruebas desde la terminal, instala Newman y el reporter en HTML globalmente:  
+   ```bash
+   npm install -g newman newman-reporter-html
+   ```
 
+3. **Ejecutar pruebas con Newman**  
+   Ejecuta el siguiente comando en la terminal para correr las pruebas y generar un reporte en HTML:  
+   ```bash
+   newman run "collections/DummyJSON API Tests.postman_collection.json" -r html --reporter-html-export newman/report.html
+   ```
 
-### 3️⃣ Ejecutar pruebas con Newman  
-Ejecuta el siguiente comando en la terminal para correr las pruebas y generar un reporte en HTML:  
-```bash
-newman run "collections/DummyJSON API Tests.postman_collection.json" -r html --reporter-html-export newman/report.html
-
-### 4️⃣ Ver reporte generado
-Después de ejecutar las pruebas, puedes ver el reporte generado en la carpeta newman. Los archivos de reporte incluyen:
-
-reportTest: newman/report.html
-summaryReport: newman/DummyJSON API Tests-2025-02-04-15-49-13-417-0.html
-
+4. **Ver reporte generado**  
+   Después de ejecutar las pruebas, puedes ver el reporte generado en la carpeta newman. Los archivos de reporte incluyen:
+   - reportTest: newman/report.html
+   - summaryReport: newman/DummyJSON API Tests-2025-02-04-15-49-13-417-0.html
 
 ## 🛠 Uso del Proyecto
 
-1. Clonar repositorio:  
+1. Clonar repositorio.  
 2. Instalar Newman y el reporter HTML.
 3. Ejecutar las pruebas con Newman.
 4. Revisar el reporte generado en newman/report.html.
 
-
-##  🤝 Contribuir
+## 🤝 Contribuir
 
 Si deseas contribuir a este proyecto, sigue estos pasos:
 
@@ -51,6 +48,3 @@ Si deseas contribuir a este proyecto, sigue estos pasos:
 3. Realiza cambios y confirma (`git commit -m "Descripción del cambio"`).
 4. Sube tus cambios (`git push origin nueva-rama`).
 5. Abre un Pull Request.
-
-
-
